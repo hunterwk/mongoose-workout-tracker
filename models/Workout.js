@@ -5,6 +5,10 @@ const workoutSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    workoutDuration: {
+        type: Number,
+        default: 0
+    },
     exercises: [
         {
         type: {
@@ -14,7 +18,8 @@ const workoutSchema = new Schema({
         },
         name: {
             type: String,
-            trim: true
+            trim: true,
+            required: "Name of exercise is required."
         },
         duration: {type: Number},
         weight: {type: Number},
@@ -23,8 +28,15 @@ const workoutSchema = new Schema({
         distance: {type: Number}
       }
     ]
-
-
 })
+workoutSchema.methods.duration = function() {
+    let totalDuration = 0;
+    this.exercise.forEach((exercise) => {
+        totalDuration += exercises.duration;
+    });
+    this.workoutDuration = totalDuration;
+}
+
+
 const Workout = model("Workout", workoutSchema);
 module.exports = Workout;
